@@ -7,9 +7,9 @@ $username = "blogger";
 $password = "123456";
 $pdo = new PDO("mysql:host=$adresseServeurMysql;dbname=$nomDeDataBase", $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
 
-if( !empty($_GET['postName']) ){
-    $name = $_GET['postName'];
-    $content = $_GET['postContent'];
+if( !empty($_POST['postName']) ){
+    $name = $_POST['postName'];
+    $content = $_POST['postContent'];
     $request = $pdo->query("INSERT INTO `posts` (`id`, `title`, `content`) VALUES (NULL, '$name', '$content');");
     $posts = $request->fetchAll();
 }
@@ -69,7 +69,7 @@ if( !empty($_GET['postName']) ){
 </header>
 <body>
 
-<form method="GET">
+<form method="POST">
     <input name = "postName" type="text" placeholder="Your post name">
     <input name = "postContent" type="text" placeholder="Your post content">
     <input type="submit" value="Envoyer">
