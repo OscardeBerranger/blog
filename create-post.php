@@ -7,16 +7,16 @@ $username = "blogger";
 $password = "123456";
 $pdo = new PDO("mysql:host=$adresseServeurMysql;dbname=$nomDeDataBase", $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
 
-$request = $pdo->query("SELECT * from posts");
-
-$posts = $request->fetchAll();
-
-$input = "rien";
-
-if( !empty($_GET['carotte']) ){
-
-    $input = $_GET['carotte'];
+if( !empty($_GET['postName']) ){
+    $name = $_GET['postName'];
+    $content = $_GET['postContent'];
+    $request = $pdo->query("INSERT INTO `posts` (`id`, `title`, `content`) VALUES (NULL, '$name', '$content');");
+    $posts = $request->fetchAll();
 }
+
+
+
+
 ?>
 
 <!doctype html>
@@ -69,24 +69,11 @@ if( !empty($_GET['carotte']) ){
 </header>
 <body>
 
-<div class="container mt-5">
-    <?php
-    foreach ($posts as $post) :
-    ?>
-        <div class="post mt-3">
-            <h3 class="titre"><?= $post["title"]?></h3>
-            <p><?= $post["content"]?></p>
-        </div>
-    <?php endforeach; ?>
-</div>
 <form method="GET">
-
-    <input type="text" name="carotte">
+    <input name = "postName" type="text" placeholder="Your post name">
+    <input name = "postContent" type="text" placeholder="Your post content">
     <input type="submit" value="Envoyer">
-
 </form>
-
-<h2>truc écrit dans l'input : <?= $input ?></h2>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>
