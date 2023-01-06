@@ -1,11 +1,8 @@
 <?php
 
 //se connecter à la base de donnée
-$adresseServeurMysql = "localhost";
-$nomDeDataBase = "blog";
-$username = "blogger";
-$password = "123456";
-$pdo = new PDO("mysql:host=$adresseServeurMysql;dbname=$nomDeDataBase", $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
+
+require_once('pdo.php');
 
 $request = $pdo->query('SELECT * FROM posts');
 
@@ -21,7 +18,9 @@ if( !empty($_GET['carotte']) ){
 $id = $_GET['id'];
 
 
-$request = $pdo->query("DELETE FROM `posts` WHERE `posts`.`id` = $id");
+$request = $pdo->prepare("DELETE FROM `posts` WHERE id=:id");
+
+$request->execute(['id'=>$id]);
 
 header( 'Location: index.php' );
 

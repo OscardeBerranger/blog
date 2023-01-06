@@ -1,30 +1,21 @@
 <?php
 
 //se connecter à la base de donnée
-$adresseServeurMysql = "localhost";
-$nomDeDataBase = "blog";
-$username = "blogger";
-$password = "123456";
-$pdo = new PDO("mysql:host=$adresseServeurMysql;dbname=$nomDeDataBase", $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
+
+require_once('pdo.php');
 
 if(!empty($_POST['postName']) ){
     if (!empty($_POST['postContent'])){
         $name = $_POST['postName'];
         $content = $_POST['postContent'];
-        $request = $pdo->query("INSERT INTO `posts` (`id`, `title`, `content`) VALUES (NULL, '$name', '$content');");
-        $posts = $request->fetchAll();
+        $request = $pdo->prepare('INSERT INTO posts SET title = :title, content = :content');
+        $request->execute([
+            "title"=>$name,
+            "content"=>$content
+        ]);
     }
     header('Location: index.php');
 }
-
-//Autre soluce :
-//$request = $pdo->prepare('INSERT INTO posts SET title = :title, content = :content');
-//
-//$request->execute([
-//        "title"=>$title,
-//        "content"=>$content
-//])
-
 
 
 ?>
