@@ -7,16 +7,18 @@ $username = "blogger";
 $password = "123456";
 $pdo = new PDO("mysql:host=$adresseServeurMysql;dbname=$nomDeDataBase", $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]);
 
-$request = $pdo->query("SELECT * from posts");
+$request = $pdo->query('SELECT * FROM posts');
 
 $posts = $request->fetchAll();
+
 
 $input = "rien";
 
 if( !empty($_GET['carotte']) ){
-
     $input = $_GET['carotte'];
 }
+
+
 ?>
 
 <!doctype html>
@@ -73,17 +75,25 @@ if( !empty($_GET['carotte']) ){
     <?php
     foreach ($posts as $post) :
     ?>
-        <div class="post mt-3">
-            <h3 class="titre"><?= $post["title"]?></h3>
-            <p><?= $post["content"]?></p>
+        <div class="mt-3">
+            <h3 class="titre"><?= $post["title"];?></h3>
+            <p><?= $post["content"];?></p>
+            <form action="delete.php" method="GET">
+                <button><input name="id" type="hidden" value="<?= $post['id'];?>">Delete</button>
+            </form>
+
+            <form action="edit.php" method="POST">
+                <input type="text" name="editName" placeholder="Title">
+                <input type="text" name="editText" placeholder="Content">
+                <button><input name="id" type="hidden" value="<?= $post['id'];?>">edit</button>
+            </form>
         </div>
     <?php endforeach; ?>
 </div>
-<form method="GET">
 
+<form method="GET">
     <input type="text" name="carotte">
     <input type="submit" value="Envoyer">
-
 </form>
 
 <h2>truc écrit dans l'input : <?= $input ?></h2>
