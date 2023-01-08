@@ -4,6 +4,7 @@
 
 //PDO
 require_once ('pdo.php');
+require_once ('libraries/tools.php');
 
 
 
@@ -15,9 +16,7 @@ $posts = $request->fetchAll();
 
 ob_start();
 
-require_once ('templates/posts/index.html.php');
-
-$pageContent = ob_get_clean();
-
-require_once ('templates/base.html.php');
-
+render("posts/index", [
+    "posts"=>$posts,
+    "pageTitle"=>"accueil du blog"
+]);

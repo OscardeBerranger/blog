@@ -13,12 +13,6 @@ if( !empty($_POST['content'])){
 
 if($title && $content){
 
-
-    $adresseServeurMySQL = "localhost";
-    $nomDeDatabase = "blog";
-    $username = "bloggy";
-    $password = "]LhDx@cl6[0tZhxT";
-
     require_once ('pdo.php');
 
     $request = $pdo->prepare('INSERT INTO posts SET title = :title, content = :content');
